@@ -1,0 +1,117 @@
+# Basic MongoDB Queries
+
+## Create or Use Database
+
+
+use DBMSLP;
+
+## Creating Collections
+
+db.createCollection("students");
+
+
+## Inserting Records
+
+###Inserting Single Record
+
+db.students.insertOne({ rollno: 201, sName: "Amit", dept: "CS", city: "Pune" });
+
+
+db.students.insertOne({
+  rollno: 202,
+  sName: "Sneha",
+  dept: "IT",
+  city: "Mumbai",
+});
+
+
+db.students.insertOne({
+  rollno: 203,
+  sName: "Raj",
+  dept: "Mechanical",
+  city: "Nagpur",
+});
+
+
+### Inserting Multiple Records
+
+db.students.insertMany([
+  { rollno: 204, sName: "Pooja", dept: "Electrical", city: "Nashik" },
+  { rollno: 205, sName: "Vikram", dept: "Civil", city: "Pune" },
+  { rollno: 206, sName: "Oma", dept: "CS", city: "Pune" },
+]);
+
+
+## Showing Records
+
+db.students.find();
+
+db.students.find({ rollno: 205 });
+
+
+## Comparison Operators:
+
+db.students.find({ rollno: { $gt: 203 } });
+
+db.students.find({ rollno: { $lt: 203 } });
+
+db.students.find({ rollno: { $gte: 203 } });
+
+db.students.find({ rollno: { $lte: 203 } });
+
+db.students.find({ rollno: { $ne: 203 } });
+
+db.students.find({ rollno: { $in: [203, 204] } });
+
+db.students.find({ rollno: { $nin: [203, 204] } });
+```
+
+## Logical Operators
+
+db.students.find({ $and: [{ rollno: 205 }, { dept: "Civil" }] });
+
+db.students.find({ $or: [{ rollno: 205 }, { dept: "Civil" }] });
+
+
+## Sort:
+
+### Ascending Order
+
+db.students.find().sort({ sName: 1 });
+
+### Descending Order
+
+db.students.find().sort({ rollno: -1 });
+
+## Limit the records
+
+db.students.find().limit(2);
+
+## Skipping Records
+
+db.students.find().skip(2);
+
+## Updating Records
+
+### Update One
+
+db.students.updateOne({ dept: "IT" }, { $set: { dept: "CS" } });
+
+### Update Many
+
+db.students.updateMany({ city: "Pune" }, { $set: { city: "ABB" } });
+
+db.students.updateMany(
+  { city: "Pune" },
+  { $set: { city: { city: "Pune", pinCode: 410507 } } }
+);
+
+## Delete
+
+### Delete One
+
+db.students.deleteOne({ rollno: 205 });
+
+### Delete Many
+
+db.students.deleteMany({ city: "Pune" });
