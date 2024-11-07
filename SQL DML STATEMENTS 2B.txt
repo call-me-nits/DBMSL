@@ -1,0 +1,206 @@
+SQL DML STATEMENTS 2B
+note - use command prompt
+
+C:\Users\nites>mysql --version
+mysql  Ver 8.0.38 for Win64 on x86_64 (MySQL Community Server - GPL)
+
+C:\Users\nites>mysql -u root -p
+Enter password: ********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 14
+Server version: 8.0.38 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2024, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database student;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use student;
+Database changed
+mysql> create table student( roll_no int(4) primary key, name varchar(20), address varchar(30));
+Query OK, 0 rows affected, 1 warning (0.03 sec)
+
+mysql> desc student;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| roll_no | int         | NO   | PRI | NULL    |       |
+| name    | varchar(20) | YES  |     | NULL    |       |
+| address | varchar(30) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> insert into student values(101, 'Nitesh','Pune');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into student values(102, 'Sandip','Mumbai');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into student values(103, 'Ketan','Rashin');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select *from student;
++---------+--------+---------+
+| roll_no | name   | address |
++---------+--------+---------+
+|     101 | Nitesh | Pune    |
+|     102 | Sandip | Mumbai  |
+|     103 | Ketan  | Rashin  |
++---------+--------+---------+
+3 rows in set (0.00 sec)
+
+mysql> insert into student values(104, 'Aadesh','Shrigonda');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select *from student;
++---------+--------+-----------+
+| roll_no | name   | address   |
++---------+--------+-----------+
+|     101 | Nitesh | Pune      |
+|     102 | Sandip | Mumbai    |
+|     103 | Ketan  | Rashin    |
+|     104 | Aadesh | Shrigonda |
++---------+--------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> delete from student where roll_no=104;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select *from student;
++---------+--------+---------+
+| roll_no | name   | address |
++---------+--------+---------+
+|     101 | Nitesh | Pune    |
+|     102 | Sandip | Mumbai  |
+|     103 | Ketan  | Rashin  |
++---------+--------+---------+
+3 rows in set (0.00 sec)
+
+mysql> update student set name='Ravi' where roll_no=103;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select *from student;
++---------+--------+---------+
+| roll_no | name   | address |
++---------+--------+---------+
+|     101 | Nitesh | Pune    |
+|     102 | Sandip | Mumbai  |
+|     103 | Ravi   | Rashin  |
++---------+--------+---------+
+3 rows in set (0.00 sec)
+
+mysql> update student set name='Tanmay' where roll_no=103;
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select *from student;
++---------+--------+---------+
+| roll_no | name   | address |
++---------+--------+---------+
+|     101 | Nitesh | Pune    |
+|     102 | Sandip | Mumbai  |
+|     103 | Tanmay | Rashin  |
++---------+--------+---------+
+3 rows in set (0.00 sec)
+
+mysql> select name from student order by name asc;
++--------+
+| name   |
++--------+
+| Nitesh |
+| Sandip |
+| Tanmay |
++--------+
+3 rows in set (0.00 sec)
+
+mysql> select name from student order by name desc;
++--------+
+| name   |
++--------+
+| Tanmay |
+| Sandip |
+| Nitesh |
++--------+
+3 rows in set (0.00 sec)
+
+mysql> select name from student where name like 'N%';
++--------+
+| name   |
++--------+
+| Nitesh |
++--------+
+1 row in set (0.01 sec)
+
+mysql> select name from student where name like '%p';
++--------+
+| name   |
++--------+
+| Sandip |
++--------+
+1 row in set (0.00 sec)
+
+mysql> select distinct address from student;
++---------+
+| address |
++---------+
+| Pune    |
+| Mumbai  |
+| Rashin  |
++---------+
+3 rows in set (0.01 sec)
+
+mysql> select *from student where address in('Pune','Mumbai');
++---------+--------+---------+
+| roll_no | name   | address |
++---------+--------+---------+
+|     101 | Nitesh | Pune    |
+|     102 | Sandip | Mumbai  |
++---------+--------+---------+
+2 rows in set (0.01 sec)
+
+mysql> select avg(roll_no) from student;
++--------------+
+| avg(roll_no) |
++--------------+
+|     102.0000 |
++--------------+
+1 row in set (0.01 sec)
+
+mysql> select min(roll_no) from student;
++--------------+
+| min(roll_no) |
++--------------+
+|          101 |
++--------------+
+1 row in set (0.01 sec)
+
+mysql> select max(roll_no) from student;
++--------------+
+| max(roll_no) |
++--------------+
+|          103 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> select count(roll_no) from student;
++----------------+
+| count(roll_no) |
++----------------+
+|              3 |
++----------------+
+1 row in set (0.01 sec)
+
+mysql> select sum(roll_no) from student;
++--------------+
+| sum(roll_no) |
++--------------+
+|          306 |
++--------------+
+1 row in set (0.00 sec)

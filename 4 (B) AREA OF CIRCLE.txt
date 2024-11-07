@@ -1,0 +1,75 @@
+4 (B) AREA OF CIRCLE
+Note- Use SQL PLUS
+
+
+SET SERVEROUTPUT ON
+CREATE TABLE assignment_3b(radius NUMBER,area NUMBER)
+
+DECLARE
+	radius_var NUMBER;
+	area_var NUMBER;
+	pi NUMBER := 3.14;
+BEGIN
+	FOR radius_var IN 5 .. 9 LOOP
+		area_var := pi*radius_var*radius_var;
+		dbms_output.put_line(area_var);
+		INSERT INTO assignment_3b VALUES (radius_var,area_var);
+	END LOOP;
+
+END;
+/
+	
+/* ----------------------OUTPUT-------------------------------
+
+    RADIUS	 AREA
+---------- ----------
+	 5	 78.5
+	 6     113.04
+	 7     153.86
+	 8     200.96
+	 9     254.34
+---------------------------------------------------------------
+
+
+2nd Example area of circle
+
+
+
+SQL*Plus: Release 21.0.0.0.0 - Production on Thu Nov 7 09:44:21 2024
+Version 21.3.0.0.0
+
+Copyright (c) 1982, 2021, Oracle.  All rights reserved.
+
+Enter user-name: SYSTEM
+Enter password:
+
+SQL> CREATE TABLE areas ( radius NUMBER, area NUMBER, circumference NUMBER );
+
+Table created.
+
+SQL> DECLARE
+  2      r NUMBER;
+  3      a NUMBER;
+  4      c NUMBER;
+  5  BEGIN
+  6      FOR r IN 5..9 LOOP
+  7          a := 3.14159 * r * r;
+  8          c := 2 * 3.14159 * r;
+  9          INSERT INTO areas VALUES (r, a, c);
+ 10      END LOOP;
+ 11      DBMS_OUTPUT.PUT_LINE('Area and circumference calculated and inserted successfully.');
+ 12  END;
+ 13  /
+Area and circumference calculated and inserted successfully.
+
+PL/SQL procedure successfully completed.
+
+SQL> select *from areas;
+
+    RADIUS       AREA CIRCUMFERENCE
+---------- ---------- -------------
+         5   78.53975       31.4159
+         6  113.09724      37.69908
+         7  153.93791      43.98226
+         8  201.06176      50.26544
+         9  254.46879      56.54862

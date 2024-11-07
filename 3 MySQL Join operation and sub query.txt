@@ -1,0 +1,157 @@
+3 MySQL Join operation and sub queries
+Note- use command prompt
+
+C:\Users\nites>mysql -u root -p
+Enter password: ********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 17
+Server version: 8.0.38 MySQL Community Server - GPL
+
+mysql> create database customer;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use customer;
+Database changed
+mysql> create table customer( cust_id int(2), first_name varchar(10), last_name varchar(10));
+Query OK, 0 rows affected, 1 warning (0.03 sec)
+
+mysql> desc customer;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| cust_id    | int         | YES  |     | NULL    |       |
+| first_name | varchar(10) | YES  |     | NULL    |       |
+| last_name  | varchar(10) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> insert into customer values(1,'Nitesh','Lad');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into customer values(2,'Tanmay','Shingote');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into customer values(3,'Ketan','Bobade');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into customer values(4,'Chinmay','Dalavi');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select *from customer;
++---------+------------+-----------+
+| cust_id | first_name | last_name |
++---------+------------+-----------+
+|       1 | Nitesh     | Lad       |
+|       2 | Tanmay     | Shingote  |
+|       3 | Ketan      | Bobade    |
+|       4 | Chinmay    | Dalavi    |
++---------+------------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> create table payment( cust_id int(2), payment int(10), mode varchar(20));
+Query OK, 0 rows affected, 2 warnings (0.02 sec)
+
+mysql> desc payment;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| cust_id | int         | YES  |     | NULL    |       |
+| payment | int         | YES  |     | NULL    |       |
+| mode    | varchar(20) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into payment values (1,500,'cash');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into payment values (2,700,'Online');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into payment values (3,1200,'credit card');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into payment values (4,300,'cash');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select *from payment;
++---------+---------+-------------+
+| cust_id | payment | mode        |
++---------+---------+-------------+
+|       1 |     500 | cash        |
+|       2 |     700 | Online      |
+|       3 |    1200 | credit card |
+|       4 |     300 | cash        |
++---------+---------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> select *from customer AS c inner join payment AS p on c.cust_id=p.cust_id;
++---------+------------+-----------+---------+---------+-------------+
+| cust_id | first_name | last_name | cust_id | payment | mode        |
++---------+------------+-----------+---------+---------+-------------+
+|       1 | Nitesh     | Lad       |       1 |     500 | cash        |
+|       2 | Tanmay     | Shingote  |       2 |     700 | Online      |
+|       3 | Ketan      | Bobade    |       3 |    1200 | credit card |
+|       4 | Chinmay    | Dalavi    |       4 |     300 | cash        |
++---------+------------+-----------+---------+---------+-------------+
+4 rows in set (0.01 sec)
+
+mysql> select *from c.first_name AS c inner join payment AS p on c.cust_id=p.cust_id;
+ERROR 1049 (42000): Unknown database 'c'
+mysql> select  c.first_name from customer AS c inner join payment AS p on c.cust_id=p.cust_id;
++------------+
+| first_name |
++------------+
+| Nitesh     |
+| Tanmay     |
+| Ketan      |
+| Chinmay    |
++------------+
+4 rows in set (0.00 sec)
+
+mysql> select  c.last_name from customer AS c inner join payment AS p on c.cust_id=p.cust_id;
++-----------+
+| last_name |
++-----------+
+| Lad       |
+| Shingote  |
+| Bobade    |
+| Dalavi    |
++-----------+
+4 rows in set (0.01 sec)
+
+mysql> insert into payment values (5,800,'cash');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select *from customer AS c inner join payment AS p on c.cust_id=p.cust_id;
++---------+------------+-----------+---------+---------+-------------+
+| cust_id | first_name | last_name | cust_id | payment | mode        |
++---------+------------+-----------+---------+---------+-------------+
+|       1 | Nitesh     | Lad       |       1 |     500 | cash        |
+|       2 | Tanmay     | Shingote  |       2 |     700 | Online      |
+|       3 | Ketan      | Bobade    |       3 |    1200 | credit card |
+|       4 | Chinmay    | Dalavi    |       4 |     300 | cash        |
++---------+------------+-----------+---------+---------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> select *from customer AS c left join payment AS p on c.cust_id=p.cust_id;
++---------+------------+-----------+---------+---------+-------------+
+| cust_id | first_name | last_name | cust_id | payment | mode        |
++---------+------------+-----------+---------+---------+-------------+
+|       1 | Nitesh     | Lad       |       1 |     500 | cash        |
+|       2 | Tanmay     | Shingote  |       2 |     700 | Online      |
+|       3 | Ketan      | Bobade    |       3 |    1200 | credit card |
+|       4 | Chinmay    | Dalavi    |       4 |     300 | cash        |
++---------+------------+-----------+---------+---------+-------------+
+4 rows in set (0.01 sec)
+
+mysql> select *from customer AS c right join payment AS p on c.cust_id=p.cust_id;
++---------+------------+-----------+---------+---------+-------------+
+| cust_id | first_name | last_name | cust_id | payment | mode        |
++---------+------------+-----------+---------+---------+-------------+
+|       1 | Nitesh     | Lad       |       1 |     500 | cash        |
+|       2 | Tanmay     | Shingote  |       2 |     700 | Online      |
+|       3 | Ketan      | Bobade    |       3 |    1200 | credit card |
+|       4 | Chinmay    | Dalavi    |       4 |     300 | cash        |
+|    NULL | NULL       | NULL      |       5 |     800 | cash        |
++---------+------------+-----------+---------+---------+-------------+
+5 rows in set (0.00 sec)
