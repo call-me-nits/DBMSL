@@ -1,0 +1,9 @@
+declare
+cursor c1 is select * from employee;
+begin
+for row in c1
+loop
+dbms_output.put_line(row.id||''||row.ename||''||row.sal||''||row.deptid);
+end loop;
+end;
+/
